@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.nio.file.WatchEvent;
 
 public class FirstTest {
     private AppiumDriver driver;
@@ -36,20 +37,20 @@ public class FirstTest {
 
     @Test
     public void firstTest() {
-        WebElement skip_button = driver.findElementById("org.wikipedia:id/fragment_onboarding_skip_button");
-        skip_button.click();
+        waitForElementByIdAndClick("org.wikipedia:id/fragment_onboarding_skip_button",
+                "Cannot find 'Skip' button",
+                5);
 
-        WebElement search_filed = waitForElementPresentById(
-                "org.wikipedia:id/search_container",
-                "Cannot find search filed");
-        search_filed.click();
+        waitForElementByIdAndClick("org.wikipedia:id/search_container",
+                "Cannot find sear field",
+                5);
 
-        WebElement search_screen = waitForElementPresentById(
-                "org.wikipedia:id/search_src_text",
+        waitForElementByIdAndSendKeys("org.wikipedia:id/search_src_text",
+                "Java",
                 "Cannot find search filed",
-                5
-        );
-        search_screen.sendKeys("Java");
+                5);
+        
+
         waitForElementPresentByXpath(
                 "//*[@text='Object-oriented programming language']",
                 "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
@@ -74,6 +75,30 @@ public class FirstTest {
     }
     private WebElement waitForElementPresentByXpath(String xpath, String error_message) {
         return waitForElementPresentByXpath(xpath, error_message, 5);
+    }
+
+    private WebElement waitForElementByXpathAndClick(String xpath, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresentByXpath(xpath, error_message, timeoutInSeconds);
+        element.click();
+        return element;
+    }
+
+    private WebElement waitForElementByXpathAndSendKeys(String xpath, String value, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresentByXpath(xpath, error_message, timeoutInSeconds);
+        element.sendKeys(value);
+        return element;
+    }
+
+    private WebElement waitForElementByIdAndClick(String id, String error_message, long timeoutInSeconds) {
+        WebElement element = waitForElementPresentById(id, error_message, timeoutInSeconds);
+        element.click();
+        return element;
+    }
+
+    private WebElement waitForElementByIdAndSendKeys(String id, String value, String error_message, long timeoutInSeconds) {
+        WebElement element = waitForElementPresentById(id, error_message, timeoutInSeconds);
+        element.sendKeys(value);
+        return element;
     }
 }
 
