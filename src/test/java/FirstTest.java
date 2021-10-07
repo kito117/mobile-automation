@@ -41,11 +41,14 @@ public class FirstTest {
 
         WebElement search_filed = waitForElementById(
                 "org.wikipedia:id/search_container",
-                "Cannot find search filed",
-                5);
+                "Cannot find search filed");
         search_filed.click();
 
-        WebElement search_screen = driver.findElementById("org.wikipedia:id/search_src_text");
+        WebElement search_screen = waitForElementById(
+                "org.wikipedia:id/search_src_text",
+                "Cannot find search filed",
+                5
+        );
         search_screen.sendKeys("Appium");
     }
 
@@ -54,6 +57,9 @@ public class FirstTest {
         wait.withMessage(error_message + "\n");
         By by = By.id(id);
         return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+    private WebElement waitForElementById(String id, String error_message) {
+        return waitForElementById(id, error_message, 5);
     }
 }
 
