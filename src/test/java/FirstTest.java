@@ -39,27 +39,41 @@ public class FirstTest {
         WebElement skip_button = driver.findElementById("org.wikipedia:id/fragment_onboarding_skip_button");
         skip_button.click();
 
-        WebElement search_filed = waitForElementById(
+        WebElement search_filed = waitForElementPresentById(
                 "org.wikipedia:id/search_container",
                 "Cannot find search filed");
         search_filed.click();
 
-        WebElement search_screen = waitForElementById(
+        WebElement search_screen = waitForElementPresentById(
                 "org.wikipedia:id/search_src_text",
                 "Cannot find search filed",
                 5
         );
-        search_screen.sendKeys("Appium");
+        search_screen.sendKeys("Java");
+        waitForElementPresentByXpath(
+                "//*[@text='Object-oriented programming language']",
+                "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
+                15);
     }
 
-    private WebElement waitForElementById(String id, String error_message, long timeoutInSeconds) {
+    private WebElement waitForElementPresentById(String id, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
         By by = By.id(id);
         return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
-    private WebElement waitForElementById(String id, String error_message) {
-        return waitForElementById(id, error_message, 5);
+    private WebElement waitForElementPresentById(String id, String error_message) {
+        return waitForElementPresentById(id, error_message, 5);
+    }
+
+    private WebElement waitForElementPresentByXpath(String xpath, String error_message, long timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        By by = By.xpath(xpath);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+    private WebElement waitForElementPresentByXpath(String xpath, String error_message) {
+        return waitForElementPresentByXpath(xpath, error_message, 5);
     }
 }
 
