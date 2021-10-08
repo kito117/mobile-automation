@@ -73,6 +73,13 @@ public class FirstTest {
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find sear field",
                 5);
+        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
+                "Java",
+                "cannot type",
+                5);
+        waitForElementAndClear(By.id("org.wikipedia:id/search_container"),
+                "cannot clear",
+               5);
         waitForElementAndClick(
                 By.className("android.widget.ImageButton"),
                 "cannot find button",
@@ -110,6 +117,12 @@ public class FirstTest {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+
+    private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.clear();
+        return element;
     }
 }
 
