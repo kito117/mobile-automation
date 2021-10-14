@@ -1,10 +1,12 @@
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -131,6 +133,42 @@ public class FirstTest {
                 article_title);
     }
 
+    @Test
+    public void testSwipeArticle() {
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find sear field",
+                5);
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find sear field",
+                5);
+        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
+                "Java",
+                "cannot type",
+                5);
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
+                15);
+
+
+        waitForElementPresent(
+                By.id("pcs-edit-section-title-description"),
+                "Cannot find article title",
+                15
+        );
+
+        swipeUp(2000);
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -163,6 +201,17 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.clear();
         return element;
+    }
+
+    protected void swipeUp(int timeOfSwipe) {
+        TouchAction action = new TouchAction(driver);
+        Dimension size = driver.manage().window().getSize();
+        int x = size.width / 2;
+        int start_y = (int) (size.height * 0.8);
+        int end_y = (int) (size.height * 0.2);
+
+        action.press(x, start_y).waitAction(timeOfSwipe).moveTo(x, end_y).release().perform();
+
     }
 }
 
