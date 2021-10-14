@@ -1,6 +1,7 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -89,6 +90,45 @@ public class FirstTest {
                 "cannat fins",
                 5);
 
+    }
+
+    @Test
+    public void testCompareArticleTitle() {
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find sear field",
+                5);
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find sear field",
+                5);
+        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
+                "Java",
+                "cannot type",
+                5);
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
+                15);
+
+
+        WebElement title_element = waitForElementPresent(
+                By.id("pcs-edit-section-title-description"),
+                "Cannot find article title",
+                15
+        );
+        String article_title = title_element.getAttribute("text");
+
+        Assert.assertEquals("We see unexpected title",
+                "Object-oriented programming language",
+                article_title);
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
