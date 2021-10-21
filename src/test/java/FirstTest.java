@@ -27,7 +27,7 @@ public class FirstTest {
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
-        capabilities.setCapability("app", "C:/Users/duiss/Projects/java-maven-appium/apks/org.wikipedia.apk");
+        capabilities.setCapability("app", "C:/Users/duiss/Projects/mobile-automation/apks/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
@@ -174,22 +174,13 @@ public class FirstTest {
     }
 
     @Test
-    public void saveFirstArticleToMyList() throws InterruptedException {
-
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Cannot find 'Skip' button",
-                5);
-
-        waitForElementPresent(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
+    public void saveFirstArticleToMyList() {
 
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find sear field",
                 5);
+
         waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
                 "Java",
                 "cannot type",
@@ -198,42 +189,67 @@ public class FirstTest {
                 By.xpath("//*[@text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
                 15);
-        Thread.sleep(5000);
 
         waitForElementAndClick(
-                By.id("org.wikipedia:id/article_menu_bookmark"),
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
                 "Cannot find 'Save article button'",
                 5
         );
         waitForElementAndClick(
-                By.xpath("//android.widget.Button[@text='ADD TO LIST']"),
+                By.xpath("//android.widget.TextView[@text='Add to reading list']"),
                 "Cannot find 'Add to list button'",
+                10
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/onboarding_button"),
+                "Cannot find got it button",
+                5);
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/text_input"),
+                "cannot find input filed",
                 5
         );
 
         waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/textinput_placeholder"),
+                By.id("org.wikipedia:id/text_input"),
                 "Learning programming",
                 "Cannot find input text",
                 5
         );
 
         waitForElementAndClick(
-                By.id("android:id/button1"),
+                By.xpath("//*[@text='OK']"),
                 "Cannot find 'OK' button",
                 5);
 
         waitForElementAndClick(
                 By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                "cann not find",
+                "Cannot find 'Save article button'",
                 5
         );
 
-        Thread.sleep(5000);
         waitForElementAndClick(
-                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                "cann not find",
+                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+                "Cannot find 'My lists'",
                 5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Learning programming']"),
+                "Cannot find 'My lists'",
+                5
+        );
+
+        swipeElementToLeft(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot find object to swipe"
+        );
+        waitForElementNotPresent(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Elent is present",
+                2
         );
     }
 
@@ -296,6 +312,26 @@ public class FirstTest {
             swipeUpQuick();
             ++already_swiped;
         }
+    }
+
+    protected void swipeElementToLeft(By by, String error_message) {
+        WebElement element = waitForElementPresent(
+                by,
+                error_message
+        );
+        int left_x = element.getLocation().getX();
+        int right_x = left_x + element.getSize().getWidth();
+        int upper_y = element.getLocation().getY();
+        int lower_y = upper_y + element.getSize().getHeight();
+        int middle_y = (upper_y + lower_y) / 2;
+
+        TouchAction action = new TouchAction(driver);
+        action
+                .press(right_x, middle_y)
+                .waitAction(300)
+                .moveTo(left_x, middle_y)
+                .release()
+                .perform();
     }
 }
 
