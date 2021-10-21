@@ -1,5 +1,6 @@
 import lib.CoreTestCase;
 import lib.ui.MainPage;
+import lib.ui.SearchPage;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -16,26 +17,11 @@ public class FirstTest extends CoreTestCase {
 
     @Test
     public void testSearch() {
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Cannot find 'Skip' button",
-                5);
+        SearchPage SearchPage = new SearchPage(driver);
 
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
-
-        MainPage.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Cannot find search filed",
-                5);
-
-        MainPage.waitForElementPresent(
-                By.xpath("//*[@text='Object-oriented programming language']"),
-                "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
-                15);
+        SearchPage.initSearchInput();
+        SearchPage.typeSearLine("Java");
+        SearchPage.waitForSearchResult("Object-oriented programming language");
     }
 
     @Test
@@ -134,7 +120,7 @@ public class FirstTest extends CoreTestCase {
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
                 "Cannot find 'Appium'",
                 15);
-        
+
         MainPage.waitForElementPresent(
                 By.xpath("//*[@text='Appium']"),
                 "Cannot find article title",
