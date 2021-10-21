@@ -97,9 +97,9 @@ public class FirstTest {
     @Test
     public void testCompareArticleTitle() {
 
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Cannot find 'Skip' button",
+       waitForElementAndClick(
+                        By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                        "Cannot find 'Skip' button",
                 5);
 
         waitForElementPresent(
@@ -170,6 +170,70 @@ public class FirstTest {
                 By.xpath("//*[@text='View article in browser']"),
                 "Cannot find 'Appium'",
                 20
+        );
+    }
+
+    @Test
+    public void saveFirstArticleToMyList() throws InterruptedException {
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find sear field",
+                5);
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find sear field",
+                5);
+        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
+                "Java",
+                "cannot type",
+                5);
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
+                15);
+        Thread.sleep(5000);
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/article_menu_bookmark"),
+                "Cannot find 'Save article button'",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//android.widget.Button[@text='ADD TO LIST']"),
+                "Cannot find 'Add to list button'",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/textinput_placeholder"),
+                "Learning programming",
+                "Cannot find input text",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("android:id/button1"),
+                "Cannot find 'OK' button",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "cann not find",
+                5
+        );
+
+        Thread.sleep(5000);
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "cann not find",
+                5
         );
     }
 
