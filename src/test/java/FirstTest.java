@@ -69,53 +69,19 @@ public class FirstTest extends CoreTestCase {
     @Test
     public void testSaveFirstArticleToMyList() {
 
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
+        SearchPage SearchPage = new SearchPage(driver);
 
-        MainPage.waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
-                "Java",
-                "cannot type",
-                5);
-        MainPage.waitForElementAndClick(
-                By.xpath("//*[@text='Object-oriented programming language']"),
-                "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
-                15);
+        SearchPage.initSearchInput()
+                .typeSearLine("Java")
+                .clickByArticleWithSubstring("Object-oriented programming language");
 
-        MainPage.waitForElementAndClick(
-                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
-                "Cannot find 'Save article button'",
-                5
-        );
-        MainPage.waitForElementAndClick(
-                By.xpath("//android.widget.TextView[@text='Add to reading list']"),
-                "Cannot find 'Add to list button'",
-                10
-        );
+        ArticlePage ArticlePage = new ArticlePage(driver);
+        ArticlePage.waitForTitleElement();
+        String article_title = ArticlePage.getArticleTitle();
+        String name_of_folder = "Learning programming";
+        ArticlePage.addArticleToMyList(name_of_folder);
 
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/onboarding_button"),
-                "Cannot find got it button",
-                5);
 
-        MainPage.waitForElementAndClear(
-                By.id("org.wikipedia:id/text_input"),
-                "cannot find input filed",
-                5
-        );
-
-        MainPage.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/text_input"),
-                "Learning programming",
-                "Cannot find input text",
-                5
-        );
-
-        MainPage.waitForElementAndClick(
-                By.xpath("//*[@text='OK']"),
-                "Cannot find 'OK' button",
-                5);
 
         MainPage.waitForElementAndClick(
                 By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
