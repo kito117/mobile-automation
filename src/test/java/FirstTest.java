@@ -1,4 +1,5 @@
 import lib.CoreTestCase;
+import lib.ui.ArticlePage;
 import lib.ui.MainPage;
 import lib.ui.SearchPage;
 import org.junit.Assert;
@@ -36,6 +37,16 @@ public class FirstTest extends CoreTestCase {
 
     @Test
     public void testCompareArticleTitle() {
+
+        SearchPage SearchPage = new SearchPage(driver);
+
+        SearchPage.initSearchInput()
+                .typeSearLine("Java")
+                .clickByArticleWithSubstring("Object-oriented programming language");
+
+        ArticlePage ArticlePage = new ArticlePage(driver);
+        ArticlePage.waitForTitleElement();
+
 
         MainPage.waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
