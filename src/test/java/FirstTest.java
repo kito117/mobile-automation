@@ -26,34 +26,12 @@ public class FirstTest extends CoreTestCase {
 
     @Test
     public void testCancelSearch() {
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Cannot find 'Skip' button",
-                5);
-        MainPage.waitForElementPresent(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
+        SearchPage SearchPage = new SearchPage(driver);
 
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
-        MainPage.waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
-                "Java",
-                "cannot type",
-                5);
-        MainPage.waitForElementAndClear(By.id("org.wikipedia:id/search_container"),
-                "cannot clear",
-                5);
-        MainPage.waitForElementAndClick(
-                By.className("android.widget.ImageButton"),
-                "cannot find button",
-                5);
-        MainPage.waitForElementNotPresent(
-                By.className("android.widget.ImageButton"),
-                "cannat fins",
-                5);
+        SearchPage.initSearchInput()
+                .waitForCancelButtonToAppear()
+                .clickCancelSearch()
+                .waitForCancelButtonToDisappear();
     }
 
     @Test

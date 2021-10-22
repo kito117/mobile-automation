@@ -8,6 +8,7 @@ public class SearchPage extends MainPage {
     private static final String
     SEARCH_INIT_ELEMENT = "org.wikipedia:id/search_container",
     SEARCH_INPUT = "org.wikipedia:id/search_src_text",
+    SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
     SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@text='{SUBSTRING}']";
 
     public SearchPage(AppiumDriver driver){
@@ -32,6 +33,21 @@ public class SearchPage extends MainPage {
     public SearchPage waitForSearchResult(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
         this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find result with " + substring);
+        return this;
+    }
+
+    public SearchPage waitForCancelButtonToAppear() {
+        waitForElementPresent(By.id(SEARCH_CANCEL_BUTTON), "Cannot find", 5);
+        return this;
+    }
+
+    public SearchPage waitForCancelButtonToDisappear() {
+        waitForElementNotPresent(By.id(SEARCH_CANCEL_BUTTON), "Cannot find", 5);
+        return this;
+    }
+
+    public SearchPage clickCancelSearch() {
+        this.waitForElementAndClick(By.id(SEARCH_CANCEL_BUTTON), "Cannot find", 5);
         return this;
     }
 }
