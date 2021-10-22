@@ -45,82 +45,25 @@ public class FirstTest extends CoreTestCase {
                 .clickByArticleWithSubstring("Object-oriented programming language");
 
         ArticlePage ArticlePage = new ArticlePage(driver);
-        ArticlePage.waitForTitleElement();
-
-
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Cannot find 'Skip' button",
-                5);
-
-        MainPage.waitForElementPresent(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
-
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
-        MainPage.waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
-                "Java",
-                "cannot type",
-                5);
-        MainPage.waitForElementAndClick(
-                By.xpath("//*[@text='Object-oriented programming language']"),
-                "Cannot find 'Object-oriented programming language' topic by searching 'Java'",
-                15);
-
-
-        WebElement title_element = MainPage.waitForElementPresent(
-                By.id("pcs-edit-section-title-description"),
-                "Cannot find article title",
-                15
-        );
-        String article_title = title_element.getAttribute("text");
+        String article_title = ArticlePage.getArticleTitle();
 
         Assert.assertEquals("We see unexpected title",
-                "Object-oriented programming language",
+                "Java (programming language)",
                 article_title);
     }
 
     @Test
     public void testSwipeArticle() {
 
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Cannot find 'Skip' button",
-                5);
+        SearchPage SearchPage = new SearchPage(driver);
 
-        MainPage.waitForElementPresent(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
+        SearchPage.initSearchInput()
+                .typeSearLine("Appium");
+        SearchPage.clickByArticleWithSubstring("Appium");
 
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
-        MainPage.waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
-                "Appium",
-                "cannot type",
-                5);
-        MainPage.waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
-                "Cannot find 'Appium'",
-                15);
-
-        MainPage.waitForElementPresent(
-                By.xpath("//*[@text='Appium']"),
-                "Cannot find article title",
-                15
-        );
-
-        MainPage.swipeUpToFindElement(
-                By.xpath("//*[@text='View article in browser']"),
-                "Cannot find 'Appium'",
-                20
-        );
+        ArticlePage ArticlePage = new ArticlePage(driver);
+        ArticlePage.waitForTitleElement();
+        ArticlePage.swipeToFooter();
     }
 
     @Test

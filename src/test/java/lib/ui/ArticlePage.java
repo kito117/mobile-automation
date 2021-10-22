@@ -7,14 +7,24 @@ import org.openqa.selenium.WebElement;
 public class ArticlePage extends MainPage {
 
     private static final String
-    TITLE = "org.wikipedia:id/view_page_title_text";
+    TITLE = "org.wikipedia:id/view_page_title_text",
+    FOOTER_ELEMENT = "//*[@text='View page in browser']";
 
     public ArticlePage(AppiumDriver driver) {
         super(driver);
     }
 
     public WebElement waitForTitleElement() {
-        this.waitForElementPresent(By.id(TITLE), "Cannot find", 15);
-        return (WebElement) this;
+        return this.waitForElementPresent(By.id(TITLE), "Cannot find article title on page!", 15);
+    }
+
+    public String getArticleTitle() {
+        WebElement title_element = waitForTitleElement();
+        return title_element.getAttribute("text");
+    }
+
+    public ArticlePage swipeToFooter() {
+        this.swipeUpToFindElement(By.xpath(FOOTER_ELEMENT), "Cannot find the end of article", 20);
+        return this;
     }
 }

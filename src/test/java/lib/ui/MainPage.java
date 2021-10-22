@@ -64,7 +64,7 @@ public class MainPage {
     }
 
     public void swipeUpQuick() {
-        swipeUp(1000);
+        swipeUp(300);
     }
 
     public void swipeUpToFindElement (By by, String error_message, int max_swipes) {

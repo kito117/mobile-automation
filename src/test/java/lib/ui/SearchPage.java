@@ -6,10 +6,10 @@ import org.openqa.selenium.By;
 public class SearchPage extends MainPage {
 
     private static final String
-    SEARCH_INIT_ELEMENT = "org.wikipedia:id/search_container",
-    SEARCH_INPUT = "org.wikipedia:id/search_src_text",
+    SEARCH_INIT_ELEMENT = "//*[contains(@text, 'Search Wikipedia')]",
+    SEARCH_INPUT = "//*[contains(@text, 'Search…')]",
     SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
-    SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@text='{SUBSTRING}']";
+    SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']";
 
     public SearchPage(AppiumDriver driver){
         super(driver);
@@ -20,13 +20,13 @@ public class SearchPage extends MainPage {
     }
 
     public SearchPage initSearchInput() {
-        this.waitForElementAndClick(By.id(SEARCH_INIT_ELEMENT), "Cannot find", 5);
-        this.waitForElementAndClick(By.id(SEARCH_INIT_ELEMENT), "Cannot find", 5);
+        this.waitForElementAndClick(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find", 5);
+        this.waitForElementPresent(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find", 5);
         return this;
     }
 
     public SearchPage typeSearLine(String search_line){
-        this.waitForElementAndSendKeys(By.id(SEARCH_INPUT), search_line, "Cannot find", 5);
+        this.waitForElementAndSendKeys(By.xpath(SEARCH_INPUT), search_line, "Cannot find", 5);
         return this;
     }
 
@@ -36,10 +36,9 @@ public class SearchPage extends MainPage {
         return this;
     }
 
-    public SearchPage clickByArticleWithSubstring(String substring) {
+    public void clickByArticleWithSubstring(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
         this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find result with " + substring, 10);
-        return this;
     }
 
     public SearchPage waitForCancelButtonToAppear() {
