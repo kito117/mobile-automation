@@ -18,18 +18,20 @@ public class SearchPage extends MainPage {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
 
-    public void initSearchInput() {
+    public SearchPage initSearchInput() {
         this.waitForElementAndClick(By.id(SEARCH_INIT_ELEMENT), "Cannot find", 5);
         this.waitForElementAndClick(By.id(SEARCH_INIT_ELEMENT), "Cannot find", 5);
-        return;
+        return this;
     }
 
-    public void typeSearLine(String search_line){
+    public SearchPage typeSearLine(String search_line){
         this.waitForElementAndSendKeys(By.id(SEARCH_INPUT), search_line, "Cannot find", 5);
+        return this;
     }
 
-    public void waitForSearchResult(String substring) {
+    public SearchPage waitForSearchResult(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementPresent(By.xpath(SEARCH_RESULT_BY_SUBSTRING_TPL), "Cannot find result with " + substring);
+        this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find result with " + substring);
+        return this;
     }
 }
