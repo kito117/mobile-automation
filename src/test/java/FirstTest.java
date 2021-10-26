@@ -114,26 +114,24 @@ public class FirstTest extends CoreTestCase {
 
     @Test
     public void testAmountOfNotEmptySearch() {
-        MainPage.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find sear field",
-                5);
 
+        SearchPage SearchPage = new SearchPage(driver);
+        SearchPage.initSearchInput();
         String search_line = "Linkin Park Discography";
+        SearchPage.typeSearLine(search_line);
+        int amount_of_search_results = SearchPage.getAmountOfFoundArticles();
 
-        MainPage.waitForElementAndSendKeys(By.id("org.wikipedia:id/search_container"),
-                search_line,
-                "cannot type",
-                5);
-        String search_result_locator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
-        MainPage.waitForElementPresent(
-                By.xpath(search_result_locator),
-                "cannot find " + search_line,
-                15);
-        int amount_of_search_results = MainPage.getAmountOfElements(
-                By.xpath(search_result_locator)
-        );
-        Assert.assertTrue("We found few",
+        Assert.assertTrue("We found few results",
                 amount_of_search_results > 0);
+    }
+
+    @Test
+    public void testAmountOfEmptySearch() {
+        SearchPage SearchPage = new SearchPage(driver);
+        SearchPage.initSearchInput();
+        String search_line = "sdasdasdasfasf";
+        SearchPage.typeSearLine(search_line);
+        SearchPage.waitForEmptyResultsLabel();
+        SearchPage.assertThereIsNoResultOfSearch();
     }
 }
