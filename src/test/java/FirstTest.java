@@ -1,7 +1,5 @@
 import lib.CoreTestCase;
-import lib.ui.ArticlePage;
-import lib.ui.MainPage;
-import lib.ui.SearchPage;
+import lib.ui.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -80,36 +78,14 @@ public class FirstTest extends CoreTestCase {
         String article_title = ArticlePage.getArticleTitle();
         String name_of_folder = "Learning programming";
         ArticlePage.addArticleToMyList(name_of_folder);
+        ArticlePage.closeArticle();
 
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI.clickMyLists();
 
-
-        MainPage.waitForElementAndClick(
-                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                "Cannot find 'Save article button'",
-                5
-        );
-
-        MainPage.waitForElementAndClick(
-                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
-                "Cannot find 'My lists'",
-                5
-        );
-
-        MainPage.waitForElementAndClick(
-                By.xpath("//*[@text='Learning programming']"),
-                "Cannot find 'My lists'",
-                5
-        );
-
-        MainPage.swipeElementToLeft(
-                By.xpath("//*[@text='Java (programming language)']"),
-                "Cannot find object to swipe"
-        );
-        MainPage.waitForElementNotPresent(
-                By.xpath("//*[@text='Java (programming language)']"),
-                "Elent is present",
-                2
-        );
+        MyListsScreen MyListsScreen = new MyListsScreen(driver);
+        MyListsScreen.openFolderByName(name_of_folder);
+        MyListsScreen.swipeArticleToDelete(article_title);
     }
 
     @Test

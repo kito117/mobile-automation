@@ -13,7 +13,8 @@ public class ArticlePage extends MainPage {
     OPTIONS_ADD_TO_MY_LIST_BUTTON = "//android.widget.TextView[@text='Add to reading list']",
     ADD_TO_MY_LIST_OVERLAY = "org.wikipedia:id/onboarding_button",
     MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
-    MY_LIST_OK_BUTTON = "//*[@text='OK']";
+    MY_LIST_OK_BUTTON = "//*[@text='OK']",
+    CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']";
 
     public ArticlePage(AppiumDriver driver) {
         super(driver);
@@ -68,5 +69,13 @@ public class ArticlePage extends MainPage {
                 By.xpath(MY_LIST_OK_BUTTON),
                 "Cannot find 'OK' button",
                 5);
+    }
+
+    public void closeArticle(){
+        this.waitForElementAndClick(
+                By.xpath(CLOSE_ARTICLE_BUTTON),
+                "Cannot find 'Save article button'",
+                5
+        );
     }
 }
