@@ -34,13 +34,7 @@ public class SearchPage extends MainPage {
         return this;
     }
 
-    public SearchPage waitForSearchResult(String substring) {
-        String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find result with " + substring);
-        return this;
-    }
-
-    public void clickByArticleWithSubstring(String substring) {
+    public void waitForSearchResult(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
         this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find result with " + substring, 10);
     }

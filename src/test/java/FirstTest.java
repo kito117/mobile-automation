@@ -2,8 +2,6 @@ import lib.CoreTestCase;
 import lib.ui.*;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 public class FirstTest extends CoreTestCase {
 
@@ -40,7 +38,7 @@ public class FirstTest extends CoreTestCase {
 
         SearchPage.initSearchInput()
                 .typeSearLine("Java")
-                .clickByArticleWithSubstring("Object-oriented programming language");
+                .waitForSearchResult("Object-oriented programming language");
 
         ArticlePage ArticlePage = new ArticlePage(driver);
         String article_title = ArticlePage.getArticleTitle();
@@ -57,7 +55,7 @@ public class FirstTest extends CoreTestCase {
 
         SearchPage.initSearchInput()
                 .typeSearLine("Appium");
-        SearchPage.clickByArticleWithSubstring("Appium");
+        SearchPage.waitForSearchResult("Appium");
 
         ArticlePage ArticlePage = new ArticlePage(driver);
         ArticlePage.waitForTitleElement();
@@ -71,7 +69,7 @@ public class FirstTest extends CoreTestCase {
 
         SearchPage.initSearchInput()
                 .typeSearLine("Java")
-                .clickByArticleWithSubstring("Object-oriented programming language");
+                .waitForSearchResult("Object-oriented programming language");
 
         ArticlePage ArticlePage = new ArticlePage(driver);
         ArticlePage.waitForTitleElement();
@@ -109,5 +107,42 @@ public class FirstTest extends CoreTestCase {
         SearchPage.typeSearLine(search_line);
         SearchPage.waitForEmptyResultsLabel();
         SearchPage.assertThereIsNoResultOfSearch();
+    }
+
+    @Test
+    public void testChangeScreenOrientationOnSearchTitle() {
+        SearchPage SearchPage = new SearchPage(driver);
+
+        SearchPage.initSearchInput()
+                .typeSearLine("Java")
+                .waitForSearchResult("Object-oriented programming language");
+
+        ArticlePage ArticlePage = new ArticlePage(driver);
+        String title_before_rotation = ArticlePage.getArticleTitle();
+
+        this.rotateScreenLandscape();
+        String title_after_rotation = ArticlePage.getArticleTitle();
+
+        Assert.assertEquals("Article title have been changed after screen rotation",
+                title_before_rotation,
+                title_after_rotation);
+
+        this.rotateScreenPortrait();
+        String title_after_second_rotation = ArticlePage.getArticleTitle();
+
+        Assert.assertEquals("Article title have been changed after screen rotation",
+                title_before_rotation,
+                title_after_second_rotation);
+    }
+
+    public void testCheckSearchArticleInBackground() {
+        SearchPage SearchPage = new SearchPage(driver);
+
+        SearchPage.initSearchInput()
+                .typeSearLine("Java");
+        SearchPage.waitForSearchResult("Object-oriented programming language");
+
+        this.backgroundApp(5);
+        SearchPage.waitForSearchResult("Object-oriented programming language");
     }
 }
